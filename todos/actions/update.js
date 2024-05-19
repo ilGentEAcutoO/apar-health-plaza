@@ -2,6 +2,12 @@ const fs = require('fs');
 const todosPath = require('path').join(__dirname, '..', 'todos.json');
 
 function update(request, response) {
+
+    if (request.headers['content-type'] !== 'application/json' || request.url !== '/todos') {
+        response.statusCode = 400;
+        response.end('Bad Request');
+    }
+
     if (request.url.match(/^\/todos\/([0-9]+)$/)) {
         const id = parseInt(request.url.split('/')[2]);
         return updateTodoById(id, request, response);
