@@ -3,7 +3,7 @@ const todosPath = require('path').join(__dirname, '..', 'todos.json');
 
 function update(request, response) {
 
-    if (request.headers['content-type'] !== 'application/json' || request.url !== '/todos') {
+    if (request.headers['content-type'] !== 'application/json') {
         response.statusCode = 400;
         response.end('Bad Request');
     }
