@@ -9,7 +9,7 @@ function remove(request, response) {
 }
 
 function removeTodoById(id, request, response) {
-    fs.readFile(todosPath, 'utf8', (err, data) => {
+    return fs.readFile(todosPath, 'utf8', (err, data) => {
         if (err) {
             console.error('Error reading todos.json:', err);
             response.statusCode = 500;
@@ -49,7 +49,6 @@ function removeTodoById(id, request, response) {
             response.end();
         });
     });
-    return;
 }
 
 module.exports = remove;
