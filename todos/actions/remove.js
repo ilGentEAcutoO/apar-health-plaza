@@ -4,7 +4,7 @@ const todosPath = require('path').join(__dirname, '..', 'todos.json');
 function remove(request, response) {
     if (request.url.match(/^\/todos\/([0-9]+)$/)) {
         const id = parseInt(request.url.split('/')[2]);
-        removeTodoById(id, request, response);
+        return removeTodoById(id, request, response);
     }
 }
 
@@ -49,6 +49,7 @@ function removeTodoById(id, request, response) {
             response.end();
         });
     });
+    return;
 }
 
 module.exports = remove;

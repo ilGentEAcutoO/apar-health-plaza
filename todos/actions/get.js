@@ -14,7 +14,7 @@ function get(request, response) {
 }
 
 function getTodoById(id, request, response) {
-    fs.readFile(todosPath, 'utf8', (err, data) => {
+    return fs.readFile(todosPath, 'utf8', (err, data) => {
         if (err) {
             errorReading(err, response)
         }
@@ -40,11 +40,10 @@ function getTodoById(id, request, response) {
         response.setHeader('Content-Type', 'application/json');
         response.end(JSON.stringify(todo));
     });
-    return;
 }
 
 function getAllTodos(request, response) {
-    fs.readFile(todosPath, 'utf8', (err, data) => {
+    return fs.readFile(todosPath, 'utf8', (err, data) => {
         if (err) {
             errorReading(err, response)
         }
@@ -64,7 +63,6 @@ function getAllTodos(request, response) {
         response.setHeader('Content-Type', 'application/json');
         response.end(JSON.stringify(todos));
     });
-    return;
 }
 
 function errorReading(err, response) {
