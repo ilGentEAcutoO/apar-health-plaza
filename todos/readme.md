@@ -1,3 +1,5 @@
 run 
-`node index.ts`
-to run server.
+`node index.js`
+to start server.
+
+access api via `http://localhost:8585/todos`
