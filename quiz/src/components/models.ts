@@ -1,8 +1,10 @@
-export interface Todo {
+export interface Question {
   id: number;
-  content: string;
+  q: string;
+  a: string;
+  b: string;
+  c: string;
+  d: string;
+  correct: string;
 }
 
-export interface Meta {
-  totalCount: number;
-}
