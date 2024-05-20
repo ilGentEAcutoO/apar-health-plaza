@@ -13,8 +13,7 @@ const $q = useQuasar()
 const emit = defineEmits(['quizPass'])
 
 function passQuiz (answerIndex: number) {
-  const score = $q.sessionStorage.getItem('currentScore')
-  if (score === null) $q.sessionStorage.set('currentScore', 0)
+  const score = $q.sessionStorage.getItem('currentScore') || '0'
   if (props.quiz.correctAnswerIndex === answerIndex) {
     $q.sessionStorage.set('currentScore', parseInt(score) + 1)
   }

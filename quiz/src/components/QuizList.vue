@@ -2,7 +2,7 @@
 import QuizTag from 'components/QuizTag.vue'
 import { computed, onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import {useRouter} from "vue-router";
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const $q = useQuasar()
@@ -174,6 +174,7 @@ function toLeaderboard () {
 
 onMounted(() => {
   quiz.value.sort(() => Math.random() - 0.5)
+  $q.sessionStorage.set('currentScore', 0)
 })
 </script>
 
