@@ -1,8 +1,8 @@
 <script setup lang='ts'>
 import QuizTag from 'components/QuizTag.vue'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
-const quiz = [
+const quiz = ref([
   {
     id: 1,
     question: 'What is Doraemon\'s main color?',
@@ -123,25 +123,42 @@ const quiz = [
     answers: ['Spiders', 'Dogs', 'Mice', 'Ghosts'],
     correctAnswerIndex: 2
   }
-]
+])
+const quizNumber = ref(0)
+const playerName = ref('')
+const playerScore = ref(0)
 
 const selectQuiz = computed(() => {
-  return quiz.slice(0, 1)[0]
+  return quiz.value.slice(0, 1)[0]
 })
 
-function quizPass (quizId: number) {
-  const index = quiz.findIndex(quiz => quiz.id === quizId)
-  quiz.splice(index, 1)
+function quizPass (quizId: number, score: number) {
+  quizNumber.value++
+  playerScore.value = playerScore.value + score
+  const index = quiz.value.findIndex(quiz => quiz.id === quizId)
+  quiz.value.splice(index, 1)
+  console.log('player score :' + playerScore.value)
+}
+
+function toLeaderboard () {
+
 }
 
 onMounted(() => {
-  quiz.sort(() => Math.random() - 0.5)
+  quiz.value.sort(() => Math.random() - 0.5)
 })
 </script>
 
 <template>
-  Quiz
-  <quiz-tag :quiz="selectQuiz" @quizPass="quizPass"/>
+  <div class="row">
+    <div class="col-12 text-center text-h4" v-if="quiz.length > 0">Quiz {{ quizNumber }}</div>
+    <quiz-tag class="col-12" v-if="quiz.length > 0" :quiz="selectQuiz" @quizPass="quizPass"/>
+    <div class="col-12 row justify-center items-center"   v-else>
+      <div class="text-h6 text-center col-12" style="padding: 5px">Enter Your Name To See Score</div>
+      <q-input class="col-10" outlined v-model="playerName" label="Player Name" />
+      <q-btn class="col-10" outlined style="padding: 5px 10px; margin-top: 10px" @click="">Submit</q-btn>
+    </div>
+  </div>
 </template>
 
 <style scoped>
