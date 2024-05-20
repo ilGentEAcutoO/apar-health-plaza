@@ -22,6 +22,8 @@ module.exports = configure(function (/* ctx */) {
 
     ],
 
+    bin: { windowsAndroidStudio: 'C:\\Users\\suanw\\AppData\\Local\\Programs\\Android Studio\\bin\\studio64.exe' },
+
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: [
       'app.sass'
