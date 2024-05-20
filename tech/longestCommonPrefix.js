@@ -1,4 +1,4 @@
-const longestCommonPrefix = function(strs: string) {
+module.exports = function longestCommonPrefix(strs) {
     if (strs.length === 0) {
         return "";
     }
@@ -15,4 +15,4 @@ const longestCommonPrefix = function(strs: string) {
     }
 
     return prefix;
-};
+}
