@@ -1,12 +1,11 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <question-list ></question-list>
-
+    <quiz-list/>
   </q-page>
 </template>
 
 <script setup lang="ts">
-import QuestionList from "components/QuestionList.vue";
+import QuizList from 'components/QuizList.vue'
 
 defineOptions({
   name: 'IndexPage'

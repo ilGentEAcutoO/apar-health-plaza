@@ -1,10 +1,6 @@
-export interface Question {
+export interface Quiz {
   id: number;
-  q: string;
-  a: string;
-  b: string;
-  c: string;
-  d: string;
+  question: string;
+  choices: string[];
   correct: string;
 }
-
