@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { useQuasar } from 'quasar'
 
 const props = defineProps({
   quiz: {
@@ -8,12 +8,15 @@ const props = defineProps({
   }
 })
 
+const $q = useQuasar()
+
 const emit = defineEmits(['quizPass'])
 
 function passQuiz (answerIndex: number) {
-  let score = 0
-  if (props.quiz.correctAnswer === answerIndex) {
-    score++
+  const score = $q.sessionStorage.getItem('currentScore')
+  if (score === null) $q.sessionStorage.set('currentScore', 0)
+  if (props.quiz.correctAnswerIndex === answerIndex) {
+    $q.sessionStorage.set('currentScore', parseInt(score) + 1)
   }
   emit('quizPass', props.quiz.id)
 }

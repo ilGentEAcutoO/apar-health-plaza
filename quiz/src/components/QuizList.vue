@@ -1,7 +1,11 @@
 <script setup lang='ts'>
 import QuizTag from 'components/QuizTag.vue'
 import { computed, onMounted, ref } from 'vue'
+import { useQuasar } from 'quasar'
+import {useRouter} from "vue-router";
 
+const router = useRouter()
+const $q = useQuasar()
 const quiz = ref([
   {
     id: 1,
@@ -124,24 +128,48 @@ const quiz = ref([
     correctAnswerIndex: 2
   }
 ])
-const quizNumber = ref(0)
+const quizNumber = ref(1)
 const playerName = ref('')
-const playerScore = ref(0)
 
 const selectQuiz = computed(() => {
   return quiz.value.slice(0, 1)[0]
 })
 
-function quizPass (quizId: number, score: number) {
+function quizPass (quizId: number) {
   quizNumber.value++
-  playerScore.value = playerScore.value + score
   const index = quiz.value.findIndex(quiz => quiz.id === quizId)
   quiz.value.splice(index, 1)
-  console.log('player score :' + playerScore.value)
 }
 
 function toLeaderboard () {
+  const score = $q.sessionStorage.getItem('currentScore')
+  let leaderboard = $q.localStorage.getItem('leaderboard')
+  if (leaderboard === null) {
+    $q.localStorage.set('leaderboard', [])
+    leaderboard = []
+  }
 
+  $q.sessionStorage.set('currentScore', 0)
+
+  const newLeaderboard = [
+    ...leaderboard,
+    {
+      name: playerName.value,
+      score
+    }
+  ]
+
+  // sort leaderboard by score
+  newLeaderboard.sort((a, b) => b.score - a.score)
+  // remove newLeaderboard if it's length is more than 10
+
+  if (newLeaderboard.length > 10) {
+    newLeaderboard.splice(10)
+  }
+
+  $q.localStorage.set('leaderboard', newLeaderboard)
+
+  router.push('/leaderboard')
 }
 
 onMounted(() => {
@@ -153,10 +181,10 @@ onMounted(() => {
   <div class="row">
     <div class="col-12 text-center text-h4" v-if="quiz.length > 0">Quiz {{ quizNumber }}</div>
     <quiz-tag class="col-12" v-if="quiz.length > 0" :quiz="selectQuiz" @quizPass="quizPass"/>
-    <div class="col-12 row justify-center items-center"   v-else>
+    <div class="col-12 row justify-center items-center" v-else>
       <div class="text-h6 text-center col-12" style="padding: 5px">Enter Your Name To See Score</div>
-      <q-input class="col-10" outlined v-model="playerName" label="Player Name" />
-      <q-btn class="col-10" outlined style="padding: 5px 10px; margin-top: 10px" @click="">Submit</q-btn>
+      <q-input class="col-10" outlined v-model="playerName" label="Player Name"/>
+      <q-btn class="col-10" outlined style="padding: 5px 10px; margin-top: 10px" @click="toLeaderboard">Submit</q-btn>
     </div>
   </div>
 </template>
